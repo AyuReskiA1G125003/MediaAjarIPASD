@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Petualangan IPA – Misi Menjadi Ilmuwan Cilik</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--g:#43b649;--b:#2f9ae0;--y:#ffd23f;--o:#ff8a29;--ink:#1d3557;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;font-family:"Baloo 2","Comic Sans MS","Trebuchet MS",sans-serif;color:var(--ink);background:linear-gradient(#bfe8ff 0%,#e8f9ff 55%,#9be28f 55.1%,#5cc364 100%) fixed;overflow-x:hidden}
+.sky{position:fixed;inset:0;pointer-events:none;z-index:0;font-size:2.2rem}
+.sky span{position:absolute;animation:fl 9s ease-in-out infinite alternate}
+@keyframes fl{to{transform:translate(30px,-14px)}}
+#app{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:14px}
+.scr{display:none;animation:pop .4s}.scr.on{display:block}
+@keyframes pop{from{opacity:0;transform:scale(.94)}}
+.card{background:#fff;border:4px solid var(--ink);border-radius:26px;padding:16px;box-shadow:0 6px 0 var(--ink)}
+h1{margin:0;font-size:clamp(1.9rem,7vw,3rem);line-height:1.05;color:var(--o);text-shadow:2px 2px 0 var(--ink),-1px -1px 0 var(--ink),1px -1px 0 var(--ink),-1px 1px 0 var(--ink);text-align:center}
+.sub{text-align:center;font-weight:800;color:var(--b);font-size:1.2rem;margin:6px 0}
+.btn{font:inherit;font-weight:800;font-size:1.3rem;border:4px solid var(--ink);border-radius:20px;padding:12px 22px;color:#fff;background:var(--g);box-shadow:0 5px 0 var(--ink);cursor:pointer;min-height:56px;transition:transform .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.btn.o{background:var(--o)}.btn.b{background:var(--b)}.btn.big{font-size:1.8rem;padding:16px 38px;animation:bn 1.2s infinite}
+@keyframes bn{50%{transform:scale(1.07)}}
+.c{text-align:center}.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.mas{width:130px;height:auto;animation:bob 2s ease-in-out infinite}.mas.s{width:70px;flex:none}
+@keyframes bob{50%{transform:translateY(-8px) rotate(2deg)}}
+.lv{display:flex;align-items:center;gap:12px;width:100%;margin:10px 0;text-align:left;color:var(--ink);background:#fff}
+.lv .em{font-size:2.4rem}.lv small{display:block;font-weight:500;font-size:.95rem}.lv.lock{opacity:.55;background:#ddd;cursor:not-allowed}
+.lv .st{margin-left:auto;font-size:1.4rem;white-space:nowrap}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:6px;font-weight:800;font-size:1.2rem;background:#fff;border:4px solid var(--ink);border-radius:18px;padding:6px 12px;margin-bottom:10px}
+.bar{height:16px;background:#fff;border:3px solid var(--ink);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.bar i{display:block;height:100%;width:100%;background:var(--g);transition:width 1s linear,background .3s}
+.qimg{font-size:5rem;text-align:center;animation:bob 2.4s infinite;line-height:1.1}
+.q{font-size:clamp(1.2rem,4.5vw,1.6rem);font-weight:800;text-align:center;margin:4px 0 12px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.opts{grid-template-columns:1fr}}
+.opt{font:inherit;font-weight:700;font-size:1.15rem;text-align:left;border:4px solid var(--ink);border-radius:18px;padding:12px 14px;background:var(--y);color:var(--ink);box-shadow:0 4px 0 var(--ink);cursor:pointer;min-height:60px}
+.opt:nth-child(2){background:#9ed8ff}.opt:nth-child(3){background:#b6ecb0}.opt:nth-child(4){background:#ffc690}
+.opt.ok{background:var(--g)!important;color:#fff;animation:jump .6s}
+.opt.no{background:#ef4b4b!important;color:#fff;animation:shake .5s}
+.opt:disabled{cursor:default}
+@keyframes jump{30%{transform:scale(1.08) rotate(-2deg)}60%{transform:scale(1.04) rotate(2deg)}}
+@keyframes shake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.fb{display:none;align-items:center;gap:10px;margin-top:12px;padding:10px;border-radius:18px;border:3px dashed var(--ink);background:#fffbe0;font-weight:600}
+.fb.on{display:flex;animation:pop .3s}.fb b{font-size:1.25rem}
+.stars{font-size:3rem;letter-spacing:4px}.big-score{font-size:3rem;font-weight:800;color:var(--o)}
+.fx{position:fixed;top:-40px;font-size:2rem;z-index:9;pointer-events:none;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.hit{animation:shake .5s}
+</style>
+</head>
+<body>
+<div class="sky"><span style="top:6%;left:6%">☁️</span><span style="top:12%;right:8%;animation-delay:-3s">☀️</span><span style="top:30%;left:70%;animation-delay:-5s">🦋</span><span style="top:60%;left:4%;animation-delay:-2s">🌻</span><span style="top:70%;right:6%;animation-delay:-4s">🐝</span></div>
+<div id="app">
+
+<section id="home" class="scr on"><div class="card c">
+<div id="mhome"></div>
+<h1>PETUALANGAN IPA</h1>
+<div class="sub">Misi Menjadi Ilmuwan Cilik 🔬</div>
+<p style="font-weight:600;font-size:1.1rem;margin:8px 0">Halo, teman! Aku Dodo si Ilmuwan Cilik. Ayo selesaikan 5 misi IPA, kumpulkan bintang ⭐, dan jaga nyawamu ❤️!</p>
+<button class="btn big" onclick="go('lvls')">▶ MULAI</button>
+</div></section>
+
+<section id="lvls" class="scr"><div class="card">
+<div class="c" style="font-weight:800;font-size:1.6rem">🗺️ Pilih Misi</div>
+<div class="c sub" id="tot"></div>
+<div id="lvlist"></div>
+<div class="row"><button class="btn b" onclick="go('home')">🏠 Beranda</button></div>
+</div></section>
+
+<section id="play" class="scr">
+<div class="hud"><span id="hl"></span><span id="hs"></span><span id="ht"></span></div>
+<div class="bar"><i id="tb"></i></div>
+<div class="card" id="qc">
+<div class="c" style="font-weight:800;color:var(--b)" id="qn"></div>
+<div class="qimg" id="qi"></div>
+<div class="q" id="qt"></div>
+<div class="opts" id="op"></div>
+<div class="fb" id="fb"><div id="fm"></div><div id="ft"></div></div>
+<div class="row"><button class="btn o" id="nx" style="display:none" onclick="nextQ()">Lanjut ➜</button></div>
+</div></section>
+
+<section id="res" class="scr"><div class="card c">
+<div id="mres"></div>
+<h1 id="rt" style="font-size:2rem"></h1>
+<div class="stars" id="rs"></div>
+<div class="big-score" id="rsc"></div>
+<p id="rm" style="font-weight:600;font-size:1.1rem"></p>
+<div class="row">
+<button class="btn o" onclick="start(cur)">🔁 Ulangi</button>
+<button class="btn" id="nl" onclick="start(cur+1)">Misi Berikutnya ➜</button>
+<button class="btn b" onclick="go('lvls')">🗺️ Pilih Misi</button>
+</div></div></section>
+</div>
+
+<script>
+var M=function(h){return '<svg viewBox="0 0 100 110" class="mas"><path d="M18 110q0-32 32-32t32 32z" fill="#fff" stroke="#2f9ae0" stroke-width="3"/><circle cx="50" cy="45" r="26" fill="#ffd9b3" stroke="#1d3557" stroke-width="2"/><path d="M23 44q2-30 27-30t27 30q-10-13-27-13t-27 13z" fill="#7a4b2a"/><circle cx="40" cy="47" r="8" fill="#fff" stroke="#1d3557" stroke-width="2.5"/><circle cx="60" cy="47" r="8" fill="#fff" stroke="#1d3557" stroke-width="2.5"/><path d="M48 47h4" stroke="#1d3557" stroke-width="2.5"/><circle cx="40" cy="47" r="2.8" fill="#1d3557"/><circle cx="60" cy="47" r="2.8" fill="#1d3557"/><path d="'+(h?'M39 59q11 11 22 0':'M39 65q11-9 22 0')+'" fill="none" stroke="#c0392b" stroke-width="3" stroke-linecap="round"/><circle cx="31" cy="58" r="4" fill="#ffb3b3" opacity=".7"/><circle cx="69" cy="58" r="4" fill="#ffb3b3" opacity=".7"/><text x="72" y="100" font-size="22">🧪</text></svg>'};
+var L=[
+{n:"Si Tumbuhan Hebat",e:"🌱",t:25,q:[
+["🥕","Bagian tumbuhan yang menyerap air dan zat hara dari dalam tanah adalah...",["Akar","Daun","Bunga","Buah"],"Akar menyerap air dan mineral dari tanah, serta menegakkan tumbuhan."],
+["🍃","Bagian tumbuhan tempat membuat makanan adalah...",["Daun","Akar","Biji","Batang"],"Daun mengandung zat hijau daun sehingga menjadi dapur tumbuhan."],
+["🌻","Bunga berfungsi sebagai alat...",["Perkembangbiakan","Menyerap air","Mengangkut air","Menegakkan tumbuhan"],"Bunga menghasilkan buah dan biji yang tumbuh menjadi tumbuhan baru."],
+["🌴","Fungsi batang pada tumbuhan adalah...",["Mengangkut air dan makanan serta menopang tumbuhan","Membuat biji","Menyerap cahaya","Menyerap air dari tanah"],"Batang seperti jalan raya: air naik dari akar, makanan turun dari daun."],
+["🥕","Wortel yang kita makan adalah akar yang berfungsi menyimpan...",["Cadangan makanan","Cahaya","Udara","Racun"],"Akar wortel membesar karena menyimpan cadangan makanan untuk tumbuhan."]]},
+{n:"Dapur Daun Hijau",e:"☀️",t:22,q:[
+["🌿","Proses tumbuhan membuat makanan sendiri disebut...",["Fotosintesis","Penguapan","Pembakaran","Pencernaan"],"Foto artinya cahaya, sintesis artinya membuat. Tumbuhan membuat makanan dengan bantuan cahaya."],
+["☀️","Fotosintesis membutuhkan air, karbon dioksida, dan...",["Cahaya matahari","Oksigen","Garam","Pasir"],"Cahaya matahari adalah sumber tenaga untuk fotosintesis."],
+["🟢","Zat hijau daun yang menangkap cahaya matahari disebut...",["Klorofil","Getah","Stomata","Serbuk sari"],"Klorofil membuat daun berwarna hijau dan menangkap cahaya."],
+["💨","Selain makanan berupa gula, fotosintesis juga menghasilkan...",["Oksigen","Karbon dioksida","Asap","Debu"],"Oksigen dilepas ke udara dan kita hirup untuk bernapas."],
+["🌑","Tanaman yang lama ditaruh di tempat gelap menjadi pucat dan layu karena...",["Tidak bisa berfotosintesis tanpa cahaya","Kebanyakan oksigen","Akarnya bernapas","Terlalu banyak air"],"Tanpa cahaya, daun tidak dapat membuat makanan sehingga tumbuhan lemah."]]},
+{n:"Wujud Zat Ajaib",e:"🧊",t:20,q:[
+["💧","Tiga wujud zat adalah padat, cair, dan...",["Gas","Api","Debu","Cahaya"],"Contoh: es (padat), air (cair), uap air (gas)."],
+["🧊","Es batu berubah menjadi air saat terkena panas. Peristiwa ini disebut...",["Mencair","Membeku","Menguap","Mengembun"],"Mencair adalah perubahan wujud dari padat menjadi cair."],
+["♨️","Air yang dipanaskan menjadi uap air. Peristiwa ini disebut...",["Menguap","Membeku","Mencair","Menyublim"],"Menguap adalah perubahan wujud dari cair menjadi gas."],
+["🥛","Ada titik-titik air di luar gelas es. Peristiwa ini disebut...",["Mengembun","Menguap","Membeku","Mencair"],"Uap air di udara bertemu benda dingin lalu berubah menjadi air (gas menjadi cair)."],
+["🫗","Zat yang bentuknya berubah mengikuti wadah, tetapi volumenya tetap adalah zat...",["Cair","Padat","Gas","Semua zat"],"Zat cair mengikuti bentuk wadahnya. Zat padat bentuknya tetap, gas mengisi seluruh ruang."]]},
+{n:"Energi Super",e:"⚡",t:18,q:[
+["🌞","Sumber energi utama bagi kehidupan di Bumi adalah...",["Matahari","Bulan","Bintang","Angin"],"Matahari memberi cahaya dan panas untuk tumbuhan, hewan, dan manusia."],
+["🌀","Kipas angin mengubah energi listrik menjadi energi...",["Gerak","Bunyi","Kimia","Panas saja"],"Listrik memutar baling-baling sehingga menghasilkan energi gerak."],
+["💡","Lampu pijar mengubah energi listrik menjadi cahaya dan...",["Panas","Bunyi","Gerak","Makanan"],"Lampu pijar terasa hangat karena sebagian energi berubah menjadi panas."],
+["🌬️","Manakah sumber energi yang tidak akan habis?",["Angin","Minyak bumi","Batu bara","Gas alam"],"Angin, matahari, dan air adalah energi terbarukan. Minyak bumi dan batu bara bisa habis."],
+["🔋","Panel surya mengubah energi cahaya matahari menjadi energi...",["Listrik","Kimia","Bunyi","Gerak"],"Panel surya menangkap cahaya matahari lalu mengubahnya menjadi listrik."]]},
+{n:"Rantai Makanan",e:"🦊",t:16,q:[
+["🌾","Tumbuhan disebut produsen karena...",["Membuat makanan sendiri","Memakan hewan","Menguraikan sisa","Tidak butuh air"],"Produsen membuat makanan sendiri lewat fotosintesis."],
+["🐇","Hewan pemakan tumbuhan disebut...",["Herbivora","Karnivora","Omnivora","Dekomposer"],"Contoh herbivora: kelinci, sapi, kambing."],
+["🐍","Urutan rantai makanan yang benar adalah...",["Padi → Tikus → Ular → Elang","Tikus → Padi → Ular → Elang","Elang → Ular → Tikus → Padi","Ular → Padi → Tikus → Elang"],"Anak panah menunjukkan arah perpindahan energi, dimulai dari produsen."],
+["🍄","Jamur dan bakteri pengurai berfungsi...",["Menguraikan sisa makhluk hidup menjadi zat hara","Memangsa elang","Membuat makanan dari cahaya","Menghasilkan hujan"],"Pengurai mengubah bangkai dan daun busuk menjadi zat hara yang menyuburkan tanah."],
+["🦅","Jika semua ular di sawah hilang, yang paling mungkin terjadi adalah...",["Jumlah tikus bertambah dan padi rusak","Padi makin banyak","Elang makin banyak","Tidak ada perubahan"],"Semua makhluk hidup saling berhubungan. Tanpa pemangsa, tikus berlebihan dan memakan padi."]]}
+];
+var st=[0,0,0,0,0],cur=0,qi=0,lives=3,score=0,ok=0,tm=0,iv=null,lock=0,Q=[],wrongs=0;
+try{var sv=JSON.parse(localStorage.getItem("ipa4")||"null");if(sv)st=sv}catch(e){}
+var $=function(i){return document.getElementById(i)};
+function go(id){document.querySelectorAll(".scr").forEach(function(s){s.classList.remove("on")});$(id).classList.add("on");if(id=="lvls")levels();window.scrollTo(0,0)}
+function stars(n){return "⭐".repeat(n)+"☆".repeat(3-n)}
+function levels(){var h="",t=0;L.forEach(function(l,i){t+=st[i];var u=i==0||st[i-1]>0;h+='<button class="btn lv'+(u?'':' lock')+'" '+(u?'onclick="start('+i+')"':'')+'><span class="em">'+(u?l.e:'🔒')+'</span><span>Misi '+(i+1)+': '+l.n+'<small>'+(["Mudah","Lumayan","Sedang","Menantang","Sangat seru"][i])+' • '+l.t+' detik</small></span><span class="st">'+stars(st[i])+'</span></button>'});$("lvlist").innerHTML=h;$("tot").textContent="Total bintang: "+t+" / 15 ⭐"}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x}return a}
+function start(i){if(i>=L.length){go("lvls");return}cur=i;qi=0;lives=3;score=0;ok=0;Q=L[i].q;go("play");loadQ()}
+function hud(){$("hl").textContent="❤️".repeat(lives)+"🖤".repeat(3-lives);$("hs").textContent="⭐ "+score;$("ht").textContent="⏱ "+tm}
+function loadQ(){var q=Q[qi];lock=0;tm=L[cur].t;$("qn").textContent="Misi "+(cur+1)+" • Soal "+(qi+1)+" dari 5";$("qi").textContent=q[0];$("qt").textContent=q[1];
+$("op").innerHTML="";shuf(q[2].map(function(t,k){return[t,k==0]})).forEach(function(o,k){var b=document.createElement("button");b.className="opt";b.textContent=String.fromCharCode(65+k)+". "+o[0];b.onclick=function(){ans(b,o[1])};b.dataset.c=o[1]?1:0;$("op").appendChild(b)});
+$("fb").className="fb";$("nx").style.display="none";$("tb").style.width="100%";$("tb").style.background="var(--g)";hud();clearInterval(iv);iv=setInterval(tick,1000)}
+function tick(){tm--;hud();var p=tm/L[cur].t*100;$("tb").style.width=p+"%";if(p<35)$("tb").style.background="var(--o)";if(p<18)$("tb").style.background="#ef4b4b";if(tm<=0){ans(null,false)}}
+function ans(b,right){if(lock)return;lock=1;clearInterval(iv);var bonus=Math.ceil(tm/2);
+document.querySelectorAll(".opt").forEach(function(o){o.disabled=true;if(o.dataset.c=="1")o.classList.add("ok")});
+var msg;if(right){score+=10+bonus;ok++;msg="🎉 <b>Benar! Hebat!</b> +"+(10+bonus)+" poin";boom()}else{lives--;if(b)b.classList.add("no");msg=(b?"😅 <b>Belum tepat.</b>":"⏰ <b>Waktu habis!</b>")+" Nyawa berkurang";$("qc").classList.add("hit");setTimeout(function(){$("qc").classList.remove("hit")},500)}
+$("fm").innerHTML=M(right);$("ft").innerHTML=msg+"<br>💡 "+Q[qi][3];$("fb").className="fb on";hud();var n=$("nx");n.style.display="inline-block";n.textContent=(lives<=0||qi==4)?"Lihat Hasil 🏆":"Lanjut ➜";$("fb").scrollIntoView({behavior:"smooth",block:"nearest"})}
+function nextQ(){if(lives<=0||qi==4){finish();return}qi++;loadQ()}
+function finish(){var pass=lives>0&&ok>=3,s=pass?(ok==5?3:ok==4?2:1):0;if(s>st[cur])st[cur]=s;try{localStorage.setItem("ipa4",JSON.stringify(st))}catch(e){}
+go("res");$("mres").innerHTML=M(pass);$("rs").textContent=stars(s);$("rsc").textContent="Skor: "+score+" • Benar "+ok+"/5";
+$("rt").textContent=pass?(s==3?"🏆 Sempurna!":"🎉 Misi Selesai!"):"💪 Ayo Coba Lagi!";
+var last=cur==L.length-1,tot=st.reduce(function(a,b){return a+b},0);
+$("rm").textContent=pass?(last?"Kamu menyelesaikan semua misi! Gelar kamu: "+(tot>=14?"Profesor IPA Cilik 🥇":tot>=10?"Ilmuwan Cilik Hebat 🥈":"Calon Ilmuwan 🥉")+" ("+tot+"/15 bintang)":"Hebat! Misi berikutnya sudah terbuka."):"Syarat lulus: jawab minimal 3 soal benar dan jaga nyawa. Baca penjelasannya lalu coba lagi ya!";
+$("nl").style.display=pass&&!last?"inline-block":"none";if(pass)boom(1)}
+function boom(big){var e=["⭐","🌟","🎉","🌱","🔬"],n=big?30:12;for(var i=0;i<n;i++){var s=document.createElement("span");s.className="fx";s.textContent=e[i%5];s.style.left=Math.random()*95+"vw";s.style.animationDelay=Math.random()*.5+"s";document.body.appendChild(s);setTimeout(function(x){x.remove()},2400,s)}}
+$("mhome").innerHTML=M(1);levels();
+</script>
+</body>
+</html>
